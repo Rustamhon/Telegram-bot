@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!Doctype html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -11,11 +11,11 @@
         * {
             margin: 0;
             padding: 0;
-            box-sizing: border-box; /* Fix: Corrected property name */
+            box-size: border-box;
         }
 
         body {
-            font-family: 'Montserrat', sans-serif;
+            font-family: 'Monserrat', sans-serif;
             font-weight: 200;
             color: var(--tg-theme-text-color);
             background: var(--tg-theme-bg-color);
@@ -35,6 +35,11 @@
         img {
             width: 70px;
             margin: 30px auto;
+        }
+
+        p {
+            width: 350px;
+            margin: 0 auto;
         }
 
         p {
@@ -92,13 +97,16 @@
         <input type="text" placeholder="Ism" id="user_name">
         <input type="text" placeholder="Email" id="user_email">
         <input type="text" placeholder="Telefon" id="user_phone">
+        <div id="error"></div>
         <button id="order">Tasdiqlash</button>
     </form>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script>
-        let tg = window.telegram.WebApp;
-        let buy = document.getElementById("buy"); // Corrected method name
-        let order = document.getElementById("order"); // Corrected method name
+        let tg = window.Telegram.WebApp;
+        let buy = document.getElementByID("buy");
+        let order = document.getElementByID("order");
+        tg.expand();
+
 
         buy.addEventListener("click", () => {
             document.getElementById("main").style.display = "none";
@@ -106,7 +114,33 @@
             document.getElementById("user_name").value = tg.initDataUnsafe.user.first_name + " " + tg.initDataUnsafe.user.last_name;
         });
 
-        order.addEventListener("click", () => { // Corrected the space before arrow function
+        order.addEventListener("click", () = > {
+            document.getElementById("error").InnerText = '';
+            let name = document.getElementById("user_name").value;
+            let email = document.getElementById("user_email").value;
+            let phone = document.getElementById("user_phone").value;
+            if(name.length < 5) {
+                document.getElementById("error").InnerText = "Isimda hatolik";
+                return;
+            }
+
+            if (email.length < 5 {
+                document.getElementById("error").InnerText = "Emailda hatolik";
+                return;
+            }
+
+            if (phone.length < 5 {
+                document.getElementById("error").InnerText = "Telefon raqamda hatolik";
+                return;
+            }
+
+            let data = {
+                name: name,
+                email: email,
+                phone: phone
+            }
+            tg.sendData(JSON.stringify(data));
+
             tg.close();
         });
     </script>
